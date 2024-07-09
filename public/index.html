@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>User Management</h1>
+        <button id="add-user-button" class="btn primary">Add User</button>
+        <div id="user-list" class="user-list"></div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div id="user-popup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">User Details</h2>
+            <form id="user-form">
+                <input type="text" id="first_name" placeholder="First Name" required>
+                <input type="text" id="last_name" placeholder="Last Name" required>
+                <input type="email" id="email" placeholder="Email" required>
+                <button type="submit" class="btn primary">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Options Modal -->
+    <div id="user-options-popup" class="popup">
+        <div class="popup-content">
+            <span class="close">&times;</span>
+            <h2>User Options</h2>
+            <button id="edit-user-button" class="btn secondary">Edit User</button>
+            <button id="delete-user-button" class="btn danger">Delete User</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
