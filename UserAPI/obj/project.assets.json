@@ -474,11 +474,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/razvantodor/UserAPI/UserAPI.csproj",
+      "projectUniqueName": "/Users/razvantodor/PracticaUPT_/UserAPI/UserAPI.csproj",
       "projectName": "UserAPI",
-      "projectPath": "/Users/razvantodor/UserAPI/UserAPI.csproj",
+      "projectPath": "/Users/razvantodor/PracticaUPT_/UserAPI/UserAPI.csproj",
       "packagesPath": "/Users/razvantodor/.nuget/packages/",
-      "outputPath": "/Users/razvantodor/UserAPI/obj/",
+      "outputPath": "/Users/razvantodor/PracticaUPT_/UserAPI/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/razvantodor/.nuget/NuGet/NuGet.Config"

@@ -1,0 +1,25 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/razvantodor/PracticaUPT_/UserAPI/wwwroot/index.html",
+      "PackagePath": "staticwebassets/index.html"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.UserAPI.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.build.UserAPI.props",
+      "PackagePath": "build\\UserAPI.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.buildMultiTargeting.UserAPI.props",
+      "PackagePath": "buildMultiTargeting\\UserAPI.props"
+    },
+    {
+      "Id": "obj/Debug/net7.0/staticwebassets/msbuild.buildTransitive.UserAPI.props",
+      "PackagePath": "buildTransitive\\UserAPI.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

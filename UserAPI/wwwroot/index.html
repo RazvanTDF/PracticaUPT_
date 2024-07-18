@@ -1,4 +1,3 @@
-<!-- Exemplu de cum ar putea arăta codul de apel API în index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,7 +8,6 @@
 <body>
     <h1>User Management Interface</h1>
 
-    <!-- Exemplu de formular de adăugare utilizator -->
     <form id="addUserForm">
         <label for="name">Name:</label>
         <input type="text" id="name" name="name" required>
@@ -21,7 +19,7 @@
     </form>
 
     <script>
-        const apiUrl = 'https://localhost:5068/api/users';
+        const apiUrl = 'http://localhost:5005/api/Users';
 
         document.getElementById('addUserForm').addEventListener('submit', function(event) {
             event.preventDefault();

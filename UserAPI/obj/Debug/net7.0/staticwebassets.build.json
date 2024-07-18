@@ -1,11 +1,39 @@
 {
   "Version": 1,
-  "Hash": "mM1BMc/8vT4cx7aPzy0MLoSo5/JCwOoC6z1koMFYl60=",
+  "Hash": "Xi2UjMeps7LH1pO0b7SwYYgymfFSHIcC8s/E88AEPNk=",
   "Source": "UserAPI",
   "BasePath": "_content/UserAPI",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
-  "DiscoveryPatterns": [],
-  "Assets": []
+  "DiscoveryPatterns": [
+    {
+      "Name": "UserAPI/wwwroot",
+      "Source": "UserAPI",
+      "ContentRoot": "/Users/razvantodor/PracticaUPT_/UserAPI/wwwroot/",
+      "BasePath": "_content/UserAPI",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/razvantodor/PracticaUPT_/UserAPI/wwwroot/index.html",
+      "SourceId": "UserAPI",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/razvantodor/PracticaUPT_/UserAPI/wwwroot/",
+      "BasePath": "_content/UserAPI",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/index.html"
+    }
+  ]
 }
