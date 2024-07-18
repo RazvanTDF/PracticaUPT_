@@ -1,3 +1,4 @@
+<!-- wwwroot/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,16 +11,45 @@
 
     <form id="addUserForm">
         <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
+        <input type="text" id="name" name="name" autocomplete="on" required>
         <br>
         <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
+        <input type="email" id="email" name="email" autocomplete="on" required>
         <br>
         <button type="submit">Add User</button>
     </form>
+    
+
+    <h2>Existing Users:</h2>
+    <ul id="userList"></ul> 
 
     <script>
-        const apiUrl = 'http://localhost:5005/api/Users';
+        const apiUrl = 'http://localhost:5043/api/users'; 
+
+        function fetchUsers() {
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    const userList = document.getElementById('userList');
+                    userList.innerHTML = '';
+
+                    data.forEach(user => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = `${user.name} - ${user.email}`;
+                        userList.appendChild(listItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        fetchUsers();
 
         document.getElementById('addUserForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -44,6 +74,7 @@
             })
             .then(data => {
                 console.log('Success:', data);
+                fetchUsers();
             })
             .catch(error => {
                 console.error('Error:', error);
