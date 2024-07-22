@@ -1,84 +1,273 @@
-<!-- wwwroot/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+
+        .primary {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .user-list div {
+            background-color: #f8f9fa;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 300px;
+            text-align: center;
+            position: relative;
+        }
+
+        .close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-    <h1>User Management Interface</h1>
+    <div class="container">
+        <h1>User Management Interface</h1>
 
-    <form id="addUserForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" autocomplete="on" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" autocomplete="on" required>
-        <br>
-        <button type="submit">Add User</button>
-    </form>
-    
+        <form id="addUserForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" autocomplete="on" required>
+            <br>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" autocomplete="on" required>
+            <br>
+            <button type="submit" class="btn primary">Add User</button>
+        </form>
 
-    <h2>Existing Users:</h2>
-    <ul id="userList"></ul> 
+        <h2>Existing Users:</h2>
+        <div id="userList" class="user-list"></div>
+    </div>
+
+    <!-- User Details Modal -->
+    <div id="user-popup" class="popup">
+        <div class="popup-content">
+            <span class="close">×</span>
+            <h2 id="modal-title">User Details</h2>
+            <form id="user-form">
+                <input type="text" id="name_edit" placeholder="Name" required>
+                <input type="email" id="email_edit" placeholder="Email" required>
+                <button type="submit" class="btn primary">Save</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- User Options Modal -->
+    <div id="user-options-popup" class="popup">
+        <div class="popup-content">
+            <span class="close">×</span>
+            <h2>User Options</h2>
+            <button id="edit-user-button" class="btn secondary">Edit User</button>
+            <button id="delete-user-button" class="btn danger">Delete User</button>
+        </div>
+    </div>
 
     <script>
-        const apiUrl = 'http://localhost:5043/api/users'; 
+        const apiUrl = 'http://localhost:5043/api/users';
 
-        function fetchUsers() {
-            fetch(apiUrl)
-                .then(response => {
+        document.addEventListener('DOMContentLoaded', () => {
+            const userList = document.getElementById('userList');
+            const addUserButton = document.getElementById('addUserForm');
+            const userPopup = document.getElementById('user-popup');
+            const userForm = document.getElementById('user-form');
+            const closePopupButtons = document.querySelectorAll('.close');
+            const modalTitle = document.getElementById('modal-title');
+            const userOptionsPopup = document.getElementById('user-options-popup');
+            let editUserId = null;
+
+            const fetchUsers = async () => {
+                try {
+                    const response = await fetch(apiUrl);
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    const userList = document.getElementById('userList');
+                    const data = await response.json();
                     userList.innerHTML = '';
 
                     data.forEach(user => {
-                        const listItem = document.createElement('li');
+                        const listItem = document.createElement('div');
                         listItem.textContent = `${user.name} - ${user.email}`;
+                        listItem.onclick = () => showUserOptions(user.id);
                         userList.appendChild(listItem);
                     });
-                })
-                .catch(error => {
+                } catch (error) {
                     console.error('Error:', error);
-                });
-        }
-
-        fetchUsers();
-
-        document.getElementById('addUserForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value
+                }
             };
 
-            fetch(apiUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
+            addUserButton.addEventListener('submit', async function(event) {
+                event.preventDefault();
+
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value
+                };
+
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const data = await response.json();
+                    console.log('Success:', data);
+                    fetchUsers();
+                } catch (error) {
+                    console.error('Error:', error);
                 }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Success:', data);
-                fetchUsers();
-            })
-            .catch(error => {
-                console.error('Error:', error);
             });
+
+            window.showUserOptions = (id) => {
+                editUserId = id;
+                userOptionsPopup.style.display = 'flex';
+            };
+
+            document.getElementById('edit-user-button').addEventListener('click', async () => {
+                try {
+                    const response = await fetch(`${apiUrl}/${editUserId}`);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    const user = await response.json();
+
+                    modalTitle.innerText = "Edit User";
+                    document.getElementById('name_edit').value = user.name;
+                    document.getElementById('email_edit').value = user.email;
+
+                    userPopup.style.display = 'flex';
+                    userOptionsPopup.style.display = 'none';
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+
+            document.getElementById('delete-user-button').addEventListener('click', async () => {
+                try {
+                    const response = await fetch(`${apiUrl}/${editUserId}`, {
+                        method: 'DELETE',
+                    });
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    userOptionsPopup.style.display = 'none';
+                    fetchUsers();
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+
+            closePopupButtons.forEach(closeBtn => {
+                closeBtn.addEventListener('click', () => {
+                    userPopup.style.display = 'none';
+                    userOptionsPopup.style.display = 'none';
+                });
+            });
+
+            userForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const name = document.getElementById('name_edit').value;
+                const email = document.getElementById('email_edit').value;
+
+                const userData = { name, email };
+
+                try {
+                    if (editUserId) {
+                        await fetch(`${apiUrl}/${editUserId}`, {
+                            method: 'PATCH',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(userData)
+                        });
+                    } else {
+                        await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(userData)
+                        });
+                    }
+
+                    userPopup.style.display = 'none';
+                    fetchUsers();
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+
+            // Close the popup if clicked outside of it
+            window.onclick = function(event) {
+                if (event.target == userPopup) {
+                    userPopup.style.display = 'none';
+                }
+                if (event.target == userOptionsPopup) {
+                    userOptionsPopup.style.display = 'none';
+                }
+            };
+
+            fetchUsers();
         });
     </script>
 </body>

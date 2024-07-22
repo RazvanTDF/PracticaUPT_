@@ -10,30 +10,18 @@ public class Startup
         services.AddControllers();
         services.AddSwaggerGen();
 
-        // Configurare politici CORS
         services.AddCors(options =>
         {
-            options.AddDefaultPolicy(builder =>
+            options.AddPolicy("AllowAllOrigins", builder =>
             {
-                builder.WithOrigins("http://localhost:5043")
+                builder.WithOrigins("http://localhost:5500")
                        .AllowAnyMethod()
                        .AllowAnyHeader()
                        .AllowCredentials();
             });
-            services.AddCors(options =>
-{
-    options.AddPolicy("AllowAllOrigins",
-        builder =>
-        {
-                    builder.AllowAnyOrigin()
-                   .AllowAnyMethod()
-                   .AllowAnyHeader();
-        });
-});
-
         });
     }
-    
+
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         if (env.IsDevelopment())
@@ -48,11 +36,10 @@ public class Startup
             app.UseHsts();
         }
 
-        app.UseCors("AllowAllOrigins");
-        
-
         app.UseHttpsRedirection();
-        app.UseStaticFiles(); 
+        app.UseStaticFiles();
+
+        app.UseCors("AllowAllOrigins");
 
         app.UseRouting();
 

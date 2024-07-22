@@ -66,3 +66,5 @@
 /Users/razvantodor/PracticaUPT_/UserAPI/obj/Debug/net7.0/UserAPI.pdb
 /Users/razvantodor/PracticaUPT_/UserAPI/obj/Debug/net7.0/UserAPI.genruntimeconfig.cache
 /Users/razvantodor/PracticaUPT_/UserAPI/obj/Debug/net7.0/ref/UserAPI.dll
+/Users/razvantodor/PracticaUPT_/UserAPI/bin/Debug/net7.0/package-lock.json
+/Users/razvantodor/PracticaUPT_/UserAPI/bin/Debug/net7.0/package.json
